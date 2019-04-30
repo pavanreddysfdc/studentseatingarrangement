@@ -169,11 +169,9 @@ function backHome(){
 let printbtn = document.querySelector('#print');
 printbtn.addEventListener('click',printOutput);
 function printOutput(){
-    let restorePage = document.body.innerHTML;
-    let printContent = document.getElementById('content').innerHTML;
-    document.body.innerHTML=printContent;
+
     window.print();
-    document.body.innerHTML=restorePage;
+  
 }
 
 
