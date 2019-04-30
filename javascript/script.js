@@ -77,6 +77,9 @@ let st2End = document.querySelector('#st2End');
 
 //getting id's of the table details
 let sub1Name = document.querySelector('#sub1NameOut');
+let sem1Out = document.querySelector('#sem1Out');
+let sem2Out = document.querySelector('#sem2Out');
+
 let sub2Name = document.querySelector('#sub2NameOut');
 let dept1Name = document.querySelector('#dept1NameOut');
 let dept2Name = document.querySelector('#dept2NameOut');
@@ -99,13 +102,18 @@ function arrangeSeats() {
     let row1=`<tr><td></td></tr>`;
     let row2='';
 
-    if(deskCount >= (st1EndVal-st1StartVal)){
+    if((deskCount >= (st1EndVal-st1StartVal)) && roomNo.value!=='' && sub1.value!==''
+    && sub2.value!=='' && dept2.value!=='' && dept1.value!=='' && desks.value!=='' && sem1.value!==''
+        && sem2.value!=='' && invigilator.value!=='' && InvigDept.value!=='' && st1Start.value!==''
+        &&st1End.value!==''&&st2Start.value!=='' && st2End.value!=='' && (sub1.value !== sub2.value)){
         outputcontent.classList.remove("d-none");
         formContent.classList.add("d-none");
         sub1Name.textContent = sub1.value;
         sub2Name.textContent = sub2.value;
         dept1Name.textContent = dept1.value;
         dept2Name.textContent = dept2.value;
+        sem1Out.textContent = sem1.value;
+        sem2Out.textContent=sem2.value;
         invigilatorName.textContent = invigilator.value;
         invigilatorDept.textContent = InvigDept.value;
         roomNumber.textContent =roomNo.value;
@@ -131,33 +139,6 @@ function arrangeSeats() {
 ///generating pdf and Reset Buttons
 let formReset = document.querySelector('#Reset');
 let backBtn = document.querySelector('#backBtn');
-let backBtnBottom = document.querySelector('#backBtnBottom');
-
-
-let pdfbtn = document.querySelector('#gen_pdf');
-let pdfbtnBottom = document.querySelector('#gen_pdfBottom');
-pdfbtn.addEventListener('click',genpdfFunc);
-pdfbtnBottom.addEventListener('click',genpdfFunc);
-
-
-
-
-//pdf functionality
-
-let doc = new jsPDF();
-let specialElementHandlers = {
-    '#editor': function (element, renderer) {
-        return true;
-    }
-}
-
-function genpdfFunc() {
-    doc.fromHTML($('#content').html(), 100, 100, {
-        'width': 600,
-        'elementHandlers': specialElementHandlers
-    });
-    doc.save('sample-file.pdf');
-}
 
 
 //reset functionality
@@ -166,10 +147,7 @@ function reset(){
      desks.textContent='';
      sub1.textContent='';
      sub2.textContent='';
-     sem1.textContent='';
-     sem2.textContent='';
-     dept1.textContent='';
-     dept2.textContent='';
+
      invigilator.textContent='';
      InvigDept.textContent='';
      st1Start.textContent='';
@@ -178,12 +156,24 @@ function reset(){
      st2End.textContent='';
 }
 backBtn.addEventListener('click',backHome);
-backBtnBottom.addEventListener('click',backHome);
 formReset.addEventListener('click',reset);
 //back to homepage
 function backHome(){
     outputcontent.classList.add("d-none");
     formContent.classList.remove("d-none");
+}
+
+
+
+//Print the output
+let printbtn = document.querySelector('#print');
+printbtn.addEventListener('click',printOutput);
+function printOutput(){
+    let restorePage = document.body.innerHTML;
+    let printContent = document.getElementById('content').innerHTML;
+    document.body.innerHTML=printContent;
+    window.print();
+    document.body.innerHTML=restorePage;
 }
 
 
